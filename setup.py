@@ -46,16 +46,12 @@ if should("Install Git configs"):
     link("/gitignore", "~/.gitignore")
     print("Installed global gitignore")
 
-if should("Install i3 configs?"):
-    pikaur(["i3-gaps", "polybar", "rofi", "compton", "feh", "dunst"])
-    link("/i3", "~/.config/i3")
-    print("Installed i3 configs")
-    link("/i3/polybar", "~/.config/polybar")
-    print("Installed polybar configs")
-    link("/i3/compton.conf", "~/.config/compton.conf")
-    print("Installed compton.conf")
-    link("/i3/dunst", "~/.config/dunst")
-    print("installed dunst configs")
+if should("Install SDDM theme \"Sweeter\"?"):
+    mkdir("/usr/share/sddm/themes/Sweeter")
+    link("/SDDM/Sweeter", "/usr/share/sddm/themes/Sweeter")
+    mkdir("/usr/lib/sddm/sddm.conf.d/default.conf")
+    link("/SDDM/sddm.conf", "/usr/lib/sddm/sddm.conf.d/default.conf")
+    print("Installed SDDM theme \"Sweeter\"")
 
 if should("Install neofetch config?"):
     mkdir("~/.config/neofetch")
