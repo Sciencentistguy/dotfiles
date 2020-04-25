@@ -39,9 +39,9 @@ Item {
         radius: width / 2
 
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "#FEAC5E" }
-            GradientStop { position: 0.33; color: "#C779D0" }
-            GradientStop { position: 1.0; color: "#4BC0C8" }
+            GradientStop { position: 0.0; color: "#444444" }
+            GradientStop { position: 0.33; color: "#666666" }
+            GradientStop { position: 1.0; color: "#888888" }
         }
     }
 

@@ -127,9 +127,9 @@ SessionManagementScreen {
                 anchors.centerIn: parent
 
             gradient: Gradient {
-                GradientStop { position: 0.0; color: "#F9D423" }
-                GradientStop { position: 0.33; color: "#FF4E50" }
-                GradientStop { position: 1.0; color: "#8A2387" }
+                GradientStop { position: 0.0; color: "#4DADDD" }
+                GradientStop { position: 0.33; color: "#3BA5D9" }
+                GradientStop { position: 1.0; color: "#1793D1" }
             }
         }
 
