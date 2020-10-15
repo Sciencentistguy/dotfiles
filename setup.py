@@ -49,7 +49,7 @@ if should("Install Git configs"):
 if should("Install SDDM theme \"Sweeter\"?"):
     mkdir("/usr/share/sddm/themes/Sweeter")
     link("/SDDM/Sweeter", "/usr/share/sddm/themes/Sweeter")
-    mkdir("/usr/lib/sddm/sddm.conf.d/default.conf")
+    mkdir("/usr/lib/sddm/")
     link("/SDDM/sddm.conf", "/usr/lib/sddm/sddm.conf.d/default.conf")
     print("Installed SDDM theme \"Sweeter\"")
 
