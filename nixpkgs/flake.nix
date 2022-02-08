@@ -70,6 +70,20 @@
           };
         };
 
+      homeConfigurations =
+        {
+          jamie = inputs.home-manager.lib.homeManagerConfiguration {
+            system = "x86_64-linux";
+            homeDirectory = "/home/jamie";
+            username = "jamie";
+            stateVersion = homeManagerStateVersion;
+            configuration = {
+              imports = [ homeManagerCommonConfig ];
+              nixpkgs = nixpkgsConfig;
+            };
+          };
+        };
+
       overlays = [
         inputs.neovim-nightly-overlay.overlay
       ];
