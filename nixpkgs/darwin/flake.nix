@@ -2,15 +2,170 @@
   description = "Jamie's darwin system";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    darwin.url = "github:lnl7/nix-darwin/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-20.09-darwin";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-20.09";
+
+    # Environment/system management
+    # darwin.url = "github:lnl7/nix-darwin";
+    darwin.url = "github:hardselius/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Other sources
+    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, darwin, nixpkgs }: {
-    darwinConfigurations."discordia" = darwin.lib.darwinSystem {
-      system = "x86_64-darwin";
-      modules = [ ./configuration.nix ];
-    };
+  outputs = inputs@{ self, nixpkgs, darwin, home-manager, flake-utils, ... }: {
+
+    darwinConfigurations."discordia" =
+      let
+        custompkgs = pkgs.callPackage ../custompkgs.nix { };
+
+        neovim-nightly-pkgs = pkgs.callPackage
+          (import
+            (builtins.fetchTarball {
+              url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+            })
+            { }
+          )
+          { inherit (pkgs) system; };
+
+        overrides = pkgs.callPackage ../overrides.nix {
+          inherit custompkgs neovim-nightly-pkgs;
+          isDarwin = true;
+        };
+        inherit (pkgs) lib;
+      in
+      darwin.lib.darwinSystem {
+        modules = [ ];
+        system = "x86_64-darwin";
+        # modules = [ ./configuration.nix ];
+        #environment.darwinConfig = "$HOME/.nix-environment/darwin.nix";
+        environment.darwinConfig = "$HOME/.config/nixpkgs/darwin.nix";
+
+        nix.trustedUsers = [
+          "jamie"
+        ];
+
+        nix.extraOptions = ''
+          auto-optimise-store = true
+          experimental-features = nix-command flakes
+        '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+          extra-platforms = x86_64-darwin aarch64-darwin
+        '';
+
+        environment.systemPackages =
+          let neovim-with-dependencies = import ./neovim.nix { inherit pkgs overrides; };
+          in
+          [
+            pkgs.coreutils
+
+            pkgs.coreutils
+            pkgs.gnumake
+          ] ++ neovim-with-dependencies;
+
+        environment.shells = with pkgs; [
+          bashInteractive
+          zsh
+        ];
+
+        # --------
+        # homebrew
+        # --------
+
+        homebrew.enable = true;
+        homebrew.autoUpdate = true;
+        homebrew.cleanup = "zap";
+        homebrew.global.brewfile = true;
+        homebrew.global.noLock = true;
+
+        homebrew.taps = [
+          "homebrew/cask"
+          "homebrew/cask-drivers"
+          "homebrew/cask-fonts"
+          "homebrew/cask-versions"
+          "homebrew/core"
+          "homebrew/services"
+          "nrlquaker/createzap"
+        ];
+
+        homebrew.masApps = {
+          Keynote = 409183694;
+          Numbers = 409203825;
+          Pages = 409201541;
+          Slack = 803453959;
+          #Xcode = 497799835;
+        };
+
+        homebrew.casks = [
+          "bitwarden"
+          "discord"
+          "firefox"
+          "flameshot"
+          "ghidra"
+          "gimp"
+          "gitkraken"
+          "google-drive"
+          "intellij-idea-ce"
+          "iterm2"
+          "keybase"
+          "multimc"
+          "private-internet-access"
+          "qbittorrent"
+          "spotify"
+          "steam"
+          "temurin"
+          "temurin8"
+          "tidal"
+          "visual-studio-code"
+          "vlc"
+        ];
+
+        homebrew.brews = [
+          "llvm@13"
+        ];
+
+        # Auto upgrade nix package and the daemon service.
+        services.nix-daemon.enable = true;
+        # nix.package = pkgs.nix;
+
+        # Create /etc/bashrc that loads the nix-darwin environment.
+        programs.zsh.enable = true; # default shell on catalina
+        # programs.fish.enable = true;
+
+        # Used for backwards compatibility, please read the changelog before changing.
+        # $ darwin-rebuild changelog
+        # system.stateVersion = 4;
+
+        users.users.root =
+          {
+            name = "root";
+            home = "/var/root";
+          };
+
+        users.users.jamie =
+          {
+            name = "jamie";
+            home = "/Users/jamie";
+          };
+
+        home-manager.users.jamie = import ./jamie.nix {
+          inherit pkgs custompkgs neovim-nightly-pkgs;
+          inherit (pkgs) lib;
+          isDarwin = true;
+        };
+
+        home-manager.users.root = import ./root.nix {
+          inherit pkgs custompkgs;
+          inherit (pkgs) lib;
+          isDarwin = true;
+        };
+
+      };
   };
 }
