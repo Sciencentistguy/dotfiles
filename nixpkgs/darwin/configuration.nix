@@ -134,7 +134,7 @@ in
   };
 
   home-manager.users.root = import ./root.nix {
-    inherit pkgs custompkgs neovim-nightly-pkgs;
+    inherit pkgs custompkgs;
     inherit (pkgs) lib;
     isDarwin = true;
   };
