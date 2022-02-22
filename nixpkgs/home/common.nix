@@ -4,56 +4,10 @@ let
   overrides = pkgs.callPackage ../common/overrides.nix {
     inherit isDarwin;
   };
-  neovim-with-dependencies = import ../common/neovim.nix { inherit pkgs overrides; };
 in
 {
-  home.packages =
-    [
-      pkgs.atuin # Store shell history in a SQL database
-      pkgs.delta # A prettifier for diffs
-      pkgs.fd # Fancier `find`
-      pkgs.fzf # Fuzzy finder
-      pkgs.gnupg # PGP implementation
-      pkgs.neofetch # Flex mode
-      pkgs.nixpkgs-fmt # Format nix source code
-      pkgs.nushell # Functional shell
-      pkgs.p7zip # General purpse archive extractor
-      pkgs.pandoc # Convert documents between formats
-      pkgs.procs # Fancier `ps`
-      pkgs.radare2 # Reverse engineering tool
-      pkgs.ripgrep # Faster grep
-      pkgs.ripgrep-all # rg through not just text
-      pkgs.sad # Modern `sed` replacement
-      pkgs.speedtest-cli # Speedtest tool
-      pkgs.tmux # Terminal multiplexer
-      pkgs.watch # Monitor the output of a command
-      pkgs.wget # Download files
-      pkgs.xz # Extract xz files
-      pkgs.yt-dlp # Download internet videos
-      pkgs.coreutils
-
-      # custompkgs
-      pkgs.shark-radar # Check blåhaj stock
-      pkgs.starship # Nice prompt
-
-      # overrides
-      overrides.exa-patched # Fancier `ls`
-      overrides.ffmpeg # Video encoder. ffmpeg-full doesn't build on darwin
-      overrides.openssh-patched
-      overrides.top # Processm monitor
-    ] ++ neovim-with-dependencies ++ lib.optionals (!isDarwin) [
-      # Nix can't do graphical apps on darwin (not very well, at least)
-      pkgs.drawio # Draw diagrams
-      pkgs.gimp # Edit images
-      pkgs.gitkraken # Git GUI
-      pkgs.jetbrains.idea-community # Java IDE
-      pkgs.makemkv # Rip DVDs and Blu-Ray discs
-      pkgs.slack
-      pkgs.spotify
-
-      # Broken on aarch64-darwin
-      overrides.beets-with-file-info # Music orginaisation software with a custom plugin
-    ];
+  imports = [ ./packages ];
+  # home.packages = neovim-with-dependencies ++ lib.optionals (!isDarwin) [ ];
 
   # Let Home Manager install and manage itself on linux.
   programs.home-manager.enable = !isDarwin;
