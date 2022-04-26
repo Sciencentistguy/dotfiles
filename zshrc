@@ -124,8 +124,11 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
 fi
 
-if type bat >/dev/null && type delta >/dev/null; then
-    export GIT_PAGER='delta | bat --style=numbers,header'
+# Do not set GIT_PAGER if diff.external is set
+if type git >/dev/null && [[ $(git config diff.external) == "" ]]; then
+    if type bat >/dev/null && type delta >/dev/null; then
+        export GIT_PAGER='delta | bat --style=numbers,header'
+    fi
 fi
 
 if type rg >/dev/null; then
