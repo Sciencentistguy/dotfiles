@@ -13,29 +13,31 @@ autocmd FileType tex let b:autoformat_autoindent=0
 
 -- Custom formatter definitions
 vim.g.neoformat_zsh_shfmt = {
-	exe = "shfmt",
-	stdin = 1,
-	args = { "-i 4" },
-}
-vim.g.neoformat_python_autopep8 = {
-	exe = "autopep8",
-	args = { "--max-line-length 100", "--experimental", "-aa", "-" },
-	stdin = 1,
-	noappend = 1,
+    exe = "shfmt",
+    args = { "-i 4" },
+    stdin = 1,
 }
 vim.g.neoformat_json_prettier = {
-	exe = "prettier",
-	args = { "--stdin", "--stdin-filepath", '"%:p"', "--parser", "json", "--tab-width 2", "--print-width 100" },
-	stdin = 1,
+    exe = "prettier",
+    args = {
+        "--stdin",
+        "--stdin-filepath",
+        '"%:p"',
+        "--parser",
+        "json",
+        "--tab-width 2",
+        "--print-width 100",
+    },
+    stdin = 1,
 }
 vim.g.neoformat_rust_customrustfmt = {
-	exe = "rustfmt",
-	stdin = 1,
-	args = { "--edition 2021" },
+    exe = "rustfmt",
+    args = { "--edition 2021" },
+    stdin = 1,
 }
 
 vim.g.neoformat_enabled_haskell = { "ormolu" }
-vim.g.neoformat_enabled_python = { "autopep8" }
+vim.g.neoformat_enabled_python = { "black" }
 vim.g.neoformat_enabled_zsh = { "shfmt" }
 vim.g.neoformat_enabled_rust = { "customrustfmt" }
 vim.g.neoformat_enabled_yaml = { "prettier" }
