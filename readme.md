@@ -1,6 +1,10 @@
 # dotfiles
 
-The dotfiles I use on my machines. (currently a desktop running Arch, and a MacBook Pro)
+> :warning: **Note**: This repo is somewhat deprecated, most of my configuration resides in [nix](https://github.com/Sciencentistguy/nixfiles). Only neovim and zsh are still configured here (for now).
+
+---
+
+The dotfiles I use on my machines. (currently a desktop running NixOS, a server running Arch Linux, and a MacBook Pro)
 
 ## Instructions
 
@@ -25,6 +29,7 @@ Most colours here are based on / taken from [here](https://github.com/joshdick/o
 | Gutter Grey  | rgb(76, 82, 99)    | #4b5263 |
 | Comment Grey | rgb(92, 99, 112)   | #5c6370 |
 ```
+
 I've created a 16-colour version of this, by adding 20 to the saturation value (in HSV) to each colour.
 
 ```yaml
