@@ -18,8 +18,18 @@ vim.api.nvim_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<C
 vim.api.nvim_set_keymap("n", "<leader>ac", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<m-cr>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>", opts)
-vim.api.nvim_set_keymap("n", "[g", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-vim.api.nvim_set_keymap("n", "]g", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
+vim.api.nvim_set_keymap(
+    "n",
+    "[g",
+    '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>',
+    opts
+)
+vim.api.nvim_set_keymap(
+    "n",
+    "]g",
+    '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>',
+    opts
+)
 
 vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
@@ -32,29 +42,29 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 lsp.sumneko_lua.setup(coq.lsp_ensure_capabilities({
-	cmd = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
-	settings = {
-		Lua = {
-			runtime = {
-				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-				version = "LuaJIT",
-				-- Setup your lua path
-				path = runtime_path,
-			},
-			diagnostics = {
-				-- Get the language server to recognize the `vim` global
-				globals = { "vim" },
-			},
-			workspace = {
-				-- Make the server aware of Neovim runtime files
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			-- Do not send telemetry data containing a randomized but unique identifier
-			telemetry = {
-				enable = false,
-			},
-		},
-	},
+    cmd = { sumneko_binary_path, "-E", sumneko_root_path .. "/main.lua" },
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = "LuaJIT",
+                -- Setup your lua path
+                path = runtime_path,
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { "vim" },
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
 }))
 
 lsp.pyright.setup(coq.lsp_ensure_capabilities({}))
@@ -67,13 +77,13 @@ lsp.clangd.setup({})
 
 -- Rust
 require("rust-tools").setup({
-	server = {
-		settings = {
-			["rust-analyzer"] = {
-				checkOnSave = {
-					command = "clippy",
-				},
-			},
-		},
-	},
+    server = {
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    command = "clippy",
+                },
+            },
+        },
+    },
 })
