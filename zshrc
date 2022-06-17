@@ -1,5 +1,4 @@
 # Shell options
-
 # Init prompt and colours
 autoload -U compinit promptinit
 autoload -U colors && colors
@@ -225,12 +224,13 @@ if grep -Fxq "arch" /etc/os-release 2>/dev/null; then
     fi
 fi
 
-if [ -f ~/.zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh ]; then
-    source ~/.zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh
-    KEYTIMEOUT=20
-    if type starship >/dev/null; then
-        RPROMPT=""
-    fi
+if [ -f ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh ]; then
+    source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+    bindkey -r '^R'
+    # KEYTIMEOUT=20
+    # if type starship >/dev/null; then
+        # RPROMPT=""
+    # fi
 else
     echo "vi-mode plugin not loaded"
 fi
@@ -316,5 +316,10 @@ if type atuin >/dev/null; then
         bindkey '^r' _atuin_search_widget
     fi
 fi
+
+function zvm_after_init() {
+  zvm_bindkey viins '^R' _atuin_search_widget
+  zvm_bindkey vicmd '^R' _atuin_search_widget
+}
 
 alias luamake=/home/jamie/Git/dotfiles/nvim/lua-language-server/3rd/luamake/luamake
