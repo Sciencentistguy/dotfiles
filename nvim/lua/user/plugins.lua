@@ -36,6 +36,7 @@ return require("packer").startup(function(use)
     use("ms-jpq/coq.thirdparty")
     use("ms-jpq/coq.artifacts")
     use("lervag/vimtex")
+    use("github/copilot.vim")
 
     use("Druid-of-Luhn/essence.vim")
 

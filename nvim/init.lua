@@ -61,6 +61,7 @@ require("telescope").load_extension("ui-select")
 require("coq_3p")({
     { src = "nvimlua", short_name = "nLUA", config_only = false },
     { src = "vimtex", short_name = "vTeX" },
+    { src = "copilot", short_name = "COP", accept_key = "<c-f>" },
 })
 
 vim.g.coq_settings = {
