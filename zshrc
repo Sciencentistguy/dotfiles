@@ -21,13 +21,20 @@ HISTSIZE=10000000
 SAVEHIST=10000
 
 # Path
-# Nix single-user
+# Global paths: end of $PATH
+if [ -d "/opt/homebrew/bin" ]; then
+    # Special case - homebrew should be first, after nix
+    # FIXME: this super doesn't work
+    PATH="/opt/homebrew/bin:$PATH"
+fi
+
 if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+    # Nix single-user
     source "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
 
-# Nix multi-user
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+    # Nix multi-user
     . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 if [ -d "/ubin" ]; then
@@ -46,6 +53,7 @@ if [ -d "/usr/sbin" ] && [ ! -L "/sbin" ]; then
     PATH="$PATH:/usr/sbin"
 fi
 
+# Local paths - beginning of $PATH
 if [ -d "$HOME/.gem" ]; then
     for i in $HOME/.gem/ruby/*; do
         PATH="$i/bin:$PATH"
@@ -58,18 +66,6 @@ fi
 
 if [ -d "$HOME/.config/yarn/global/node_modules/.bin" ]; then
     PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-fi
-
-if [ -d "/opt/homebrew/bin" ]; then
-    PATH="/opt/homebrew/bin:$PATH"
-fi
-
-# Macos ships a very old and crippled clang, replace it with homebrew
-if [ -d "/opt/homebrew/opt/llvm/bin" ]; then
-    # Unless nix is in control
-    if [[ "$(which clang)" == /usr/bin* ]]; then
-        PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-    fi
 fi
 
 if [ -d "$HOME/.cargo/bin" ]; then
