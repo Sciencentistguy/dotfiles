@@ -259,6 +259,7 @@ if [ -f ~/.zsh/plugins/globalias.plugin.zsh ]; then
         mv
         rg
         rm
+        rsync
         sudo
     )
 else
