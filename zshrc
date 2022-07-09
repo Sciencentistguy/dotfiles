@@ -319,4 +319,6 @@ function zvm_after_init() {
   zvm_bindkey vicmd '^R' _atuin_search_widget
 }
 
+zvm_after_init_commands+=("bindkey '^[[A' up-line-or-search" "bindkey '^[[B' down-line-or-search")
+
 alias luamake=/home/jamie/Git/dotfiles/nvim/lua-language-server/3rd/luamake/luamake
