@@ -75,6 +75,8 @@ lsp.rnix.setup({})
 
 lsp.clangd.setup({})
 
+lsp.solargraph.setup({})
+
 -- Rust
 require("rust-tools").setup({
     server = {
