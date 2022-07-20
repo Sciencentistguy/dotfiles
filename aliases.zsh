@@ -5,6 +5,7 @@ alias dc="cd"
 alias df="df -h"
 alias du="du -sh"
 alias e='search-edit'
+alias ex='extract'
 alias feh="feh --conversion-timeout 1"
 alias fex="nautilus . 2>/dev/null"
 alias ffmpeg="ffmpeg -hide_banner"
