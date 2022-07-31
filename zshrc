@@ -170,6 +170,11 @@ fi
 
 eval $(ssh-agent) >/dev/null
 
+# Command-not-found
+if [ -f ~/.zsh/command-not-found.zsh ]; then
+    source ~/.zsh/command-not-found.zsh
+fi
+
 # Plugins
 if [ -f ~/.zsh/plugins/git.plugin.zsh ]; then
     source ~/.zsh/plugins/git.plugin.zsh
