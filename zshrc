@@ -271,6 +271,8 @@ else
     echo "globalias plugin not loaded"
 fi
 
+# Largely taken from
+# https://github.com/ellie/atuin/blob/aa556fa0883d1a5c8f35960c9d6e8966e4307896/src/shell/atuin.zsh
 if type atuin >/dev/null; then
     autoload -U add-zsh-hook
 
@@ -279,7 +281,7 @@ if type atuin >/dev/null; then
     export ATUIN_BINDKEYS="true"
 
     _atuin_preexec() {
-        id=$(atuin history start "$1")
+        id=$(atuin history start -- "$1")
         export ATUIN_HISTORY_ID="$id"
     }
 
@@ -288,7 +290,7 @@ if type atuin >/dev/null; then
 
         [[ -z "${ATUIN_HISTORY_ID}" ]] && return
 
-        (RUST_LOG=error atuin history end $ATUIN_HISTORY_ID --exit $EXIT &) >/dev/null 2>&1
+        (RUST_LOG=error atuin history end --exit $EXIT -- $ATUIN_HISTORY_ID &) >/dev/null 2>&1
     }
 
     _atuin_search() {
@@ -299,7 +301,7 @@ if type atuin >/dev/null; then
         echoti rmkx
         # swap stderr and stdout, so that the tui stuff works
         # TODO: not this
-        output=$(RUST_LOG=error atuin search -i $BUFFER 3>&1 1>&2 2>&3)
+        output=$(RUST_LOG=error atuin search -i -- $BUFFER 3>&1 1>&2 2>&3)
         echoti smkx
 
         if [[ -n $output ]]; then
