@@ -29,20 +29,6 @@ ffcompare() {
     ffplay $2
 }
 
-update-music-library() {
-    if [ $(hostname) = chronos ]; then
-        rsync -Pa --delete ~/Music/beets/ atlas:/nas/plex/Music
-        rsync -Pa ~/.config/beets atlas:/nas/plex/Music/beetsconfig
-    fi
-}
-
-update-music-library-remote() {
-    if [ $(hostname) = chronos ]; then
-        rsync -Pa --delete ~/Music/beets/ home.jamiequigley.com:/nas/plex/Music
-        rsync -Pa ~/.config/beets home.jamiequigley.com:/nas/plex/Music/beetsconfig
-    fi
-}
-
 aur() {
     git clone "https://aur.archlinux.org/$1"
 }
