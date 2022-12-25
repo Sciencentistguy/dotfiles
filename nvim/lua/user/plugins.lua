@@ -61,6 +61,7 @@ return require("packer").startup(function(use)
             { "nvim-lua/plenary.nvim" },
         },
     })
+    use("junegunn/fzf.vim")
     use({
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
