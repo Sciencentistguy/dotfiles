@@ -84,6 +84,9 @@ require("rust-tools").setup({
                 checkOnSave = {
                     command = "clippy",
                 },
+                inlayHints = {
+                    locationLinks = false,
+                },
             },
         },
     },
